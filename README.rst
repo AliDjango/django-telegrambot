@@ -74,11 +74,15 @@ And set your bots::
             'STRICT_INIT': True, # If set to True, the server will fail to start if some of the
                                  # apps contain telegrambot.py files that cannot be successfully
                                  # imported.
-
+			'DISABLE_SETUP': False, # If set to True, there will be no tries to set webhook or read
+                                 # updates from the telegram server on app's start
+                                 # (useful when developing on local machine; makes django's startup faster)
             'BOT_MODULE_NAME': 'telegrambot_handlers', #(Optional [str])  # The default name for file name containing telegram handlers which has to be placed inside your local app(s). Default is 'telegrambot'. Example is to put "telegrambot_handlers.py" file to local app's folder.
 
             'BOTS' : [
                 {
+				   'ID': 'MainBot', #Unique identifier for your bot (used in your code only),
+				   
                    'TOKEN': '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11', #Your bot token.
 
                    #'CONTEXT': True,  # Use context based handler functions
@@ -178,6 +182,7 @@ Then use it in a project creating a module ``telegrambot.py`` in your app ::
             # Default dispatcher (this is related to the first bot in settings.DJANGO_TELEGRAMBOT['BOTS'])
             dp = DjangoTelegramBot.dispatcher
             # To get Dispatcher related to a specific bot
+			# dp = DjangoTelegramBot.getDispatcher('BOT_n_id')        #get by bot identifier
             # dp = DjangoTelegramBot.getDispatcher('BOT_n_token')     #get by bot token
             # dp = DjangoTelegramBot.getDispatcher('BOT_n_username')  #get by bot username
 
